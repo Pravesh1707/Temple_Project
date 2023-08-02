@@ -1,4 +1,4 @@
-![example](src/img/example.png)
+![example](src/img/example1.png)
 
 ### `npm start`
 

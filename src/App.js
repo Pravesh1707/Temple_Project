@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import {data} from "./constants/constant"
+import React, { useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import './index.css';
 
-function App() {
+const Slider = () => {
+    const slideRef = useRef(null);
+    const [loadingProgress] = useState(0);
+  
+    const handleClickNext = () => {
+      let items = slideRef.current.querySelectorAll(".item");
+      slideRef.current.appendChild(items[0]);
+    };
+  
+    const handleClickPrev = () => {
+      let items = slideRef.current.querySelectorAll(".item");
+      slideRef.current.prepend(items[items.length - 1]);
+    };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div className="container">
+      <div className="loadbar" style={{ width: `${loadingProgress}%` }}></div>
+      <div id="slide" ref={slideRef}>
+      {data.map((item) => (
+          <div 
+          key = {item.id}
+          className="item"
+          style={{backgroundImage:`url(${item.img})`}}
+          >
+            <div className="content">
+              <div className="name">{item.name}</div>
+              {/* <div className="des">{item.desc}</div> */}
+              <button>See more</button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="buttons">
+        <button id="prev" onClick={handleClickPrev}>
+          <FontAwesomeIcon icon={faAngleLeft} />
+        </button>
+        <button id="next" onClick={handleClickNext}>
+          <FontAwesomeIcon icon={faAngleRight} />
+        </button>
+      </div>
     </div>
   );
-}
+};
 
-export default App;
+export default Slider;
